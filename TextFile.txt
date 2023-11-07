@@ -1,0 +1,1 @@
+﻿The following code example creates a RichTextBox control that loads an RTF file into the control and searches for the first instance of the word "Text."
