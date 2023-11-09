@@ -5,11 +5,18 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace laber
 {
     internal class Forms : Form
     {
+        MenuStrip mm;
+        ToolStripMenuItem fm;
+        ToolStripMenuItem fm1;
+        ToolStripMenuItem fm2;
+        ToolStripMenuItem fm3;
+        ToolStripMenuItem fm4;
         Label lbl;
         Label lbl1;
         Label lbl2;
@@ -48,10 +55,104 @@ namespace laber
             this.Height = 700;
             this.Width =900;
 
+            mm = new MenuStrip();
+            mm.BackColor = Color.White;
+            mm.ForeColor = Color.Black;
+            mm.Font = new Font("Arial", 10);
+            this.MainMenuStrip = mm;
+            Controls.Add(mm);
+            
+            fm = new ToolStripMenuItem("File");
+            fm.BackColor = Color.LightCoral;
+            fm.ForeColor = Color.Black;
+            fm.Text = "Файл";
+            fm.Font = new Font("Arial", 8);
+            mm.Items.Add(fm);
+
+            fm1 = new ToolStripMenuItem("File");
+            fm1.BackColor = Color.LightCoral;
+            fm1.ForeColor = Color.Black;
+            fm1.Text = "?";
+            fm1.Font = new Font("Arial", 8);
+            mm.Items.Add(fm1);
+            fm1.Click += new System.EventHandler(FileMenuItemClick3);
+            void FileMenuItemClick3(object sender, EventArgs e)
+            {
+                MessageBox.Show("Информация о приложении и разработчике");
+            }
+
+            fm2 = new ToolStripMenuItem("File");
+            fm2.BackColor = Color.LightCoral;
+            fm2.ForeColor = Color.Black;
+            fm2.Text = "Открыть";
+            fm2.Font = new Font("Arial", 8);
+            fm2.Click += new System.EventHandler(FileMenuItemClick);
+            void FileMenuItemClick(object sender, EventArgs e)
+            {
+                OpenFileDialog OpenDlg = new OpenFileDialog();
+                if (OpenDlg.ShowDialog() == DialogResult.OK)
+                {
+                    StreamReader Reader = new StreamReader(OpenDlg.FileName, Encoding.Default);
+                    rtb.Text = Reader.ReadToEnd();
+                    Reader.Close();
+                }
+            }
+
+
+            fm3 = new ToolStripMenuItem("File");
+            fm3.BackColor = Color.LightCoral;
+            fm3.ForeColor = Color.Black;
+            fm3.Text = "Сохранить";
+            fm3.Font = new Font("Arial", 8);
+            fm3.Click += new System.EventHandler(FileMenuItemClick1);
+            void FileMenuItemClick1(object sender, EventArgs e)
+            {
+                SaveFileDialog SaveDlg = new SaveFileDialog();
+                if (SaveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    StreamWriter Writer = new StreamWriter(SaveDlg.FileName);
+                    for (int i = 0; i < lb.Items.Count; i++)
+                    {
+                        Writer.WriteLine((string)lb.Items[i]);
+                    }
+                }
+            }
+
+            fm4 = new ToolStripMenuItem("File");
+            fm4.BackColor = Color.LightCoral;
+            fm4.ForeColor = Color.Black;
+            fm4.Text = "Выход";
+            fm4.Font = new Font("Arial", 8);
+            fm4.Click += new System.EventHandler(FileMenuItemClick2);
+            void FileMenuItemClick2(object sender, EventArgs e)
+            {
+                Application.Exit();
+            }
+
+            fm.DropDownItems.Add(fm2);
+            fm.DropDownItems.Add(fm3);
+            fm.DropDownItems.Add(fm4);
+
+            rtb = new RichTextBox();
+            rtb.SelectionFont = new Font("Arial", 12, FontStyle.Bold);
+            rtb.SelectionColor = Color.Black;
+            rtb.Location = new Point(520, 30);
+            rtb.Size = new Size(350, 470);
+            this.Controls.Add(rtb);
+
+            
+            
+
+
+
+
+
+
+
             lbl = new Label();
             lbl.Text = "Раздел 1";
             lbl.ForeColor = Color.Black;
-            lbl.Location = new Point(12, 20);
+            lbl.Location = new Point(12, 35);
             lbl.Size = new Size(55, 20);
             lbl.Visible = true;
             lbl.BackColor = Color.LightBlue;
@@ -60,7 +161,7 @@ namespace laber
             lbl1 = new Label();
             lbl1.Text = "Раздел 2";
             lbl1.ForeColor = Color.Black;
-            lbl1.Location = new Point(310, 20);
+            lbl1.Location = new Point(310, 35);
             lbl1.Size = new Size(55, 20);
             lbl1.Visible = true;
             lbl1.BackColor = Color.LightBlue;
@@ -104,12 +205,7 @@ namespace laber
             lb1.Visible = true;
             this.Controls.Add(lb1);
 
-            rtb = new RichTextBox();
-            rtb.SelectionFont = new Font("Arial", 12, FontStyle.Bold);
-            rtb.SelectionColor = Color.Black;
-            rtb.Location = new Point(520,10);
-            rtb.Size = new Size(350,470);
-            this.Controls.Add(rtb);
+            
 
             btn1 = new Button();
             btn1.Height = 30;
@@ -260,24 +356,24 @@ namespace laber
             this.Controls.Add(btn13);
 
             pnl = new Panel();
-            pnl.Location = new System.Drawing.Point(10, 10);
+            pnl.Location = new System.Drawing.Point(10,30);
             pnl.Name = "Panel1";
-            pnl.Size = new System.Drawing.Size(500, 630);
+            pnl.Size = new System.Drawing.Size(500, 620);
             pnl.BackColor = Color.LightBlue;
             pnl.BorderStyle = BorderStyle.Fixed3D;
             Controls.Add(pnl);
 
             r1 = new RadioButton();
             r1.Text = "Все";
-            r1.Location = new Point(540,530);
+            r1.Location = new Point(540,540);
             r1.Size = new Size(50,20);
             r2 = new RadioButton();
             r2.Text = "Содержащие цифры";
-            r2.Location = new Point(540, 560);
+            r2.Location = new Point(540, 570);
             r2.Size = new Size(150, 20);
             r3 = new RadioButton();
             r3.Text = "Содержащие 'e-mail'";
-            r3.Location = new Point(540, 590);
+            r3.Location = new Point(540, 600);
             r3.Size = new Size(150, 20);
             r1.Visible = true;
             r2.Visible = true;
@@ -293,18 +389,20 @@ namespace laber
             btn14.Height = 70;
             btn14.Width = 100;
             btn14.Text = "Начать";
-            btn14.Location = new Point(760, 540);
+            btn14.Location = new Point(760, 550);
             btn14.Visible = true;
             this.Controls.Add(btn14);
 
             gp1 = new GroupBox();
             gp1.BackColor = Color.GreenYellow;
             gp1.Text = "Выбор слов";
-            gp1.Location = new Point(520, 490);
-            gp1.Size = new Size(350, 150);
+            gp1.Location = new Point(520, 510);
+            gp1.Size = new Size(350, 140);
             this.Controls.Add(gp1);
 
         }
+
+
 
     }
 }
